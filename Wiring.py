@@ -106,7 +106,10 @@ def pick_wires(T1, T2, p, l, x, wires, names, output_file):
                 complete_cond = complete_curve(current_cond, names[wire_i])
             current_pow = calc_power(complete_cond, T1, T2, length)
             # Check if thermal loading is <= given power threshold
-            if current_pow <= p:
+            if names[wire_i] == 'SC-086/50-CN-CN':
+                print(names[wire_i])
+                print(current_pow)
+            if current_pow <= p and current_pow > 0:
                 ok_length.append(length)
                 ok_power.append(current_pow)
                 # Fit line for att/l vs T betw 4 and 300K and use to find att/l for 
@@ -359,7 +362,7 @@ def main(T1, T2, p, l, x, output_file):
     
     '''
     for name in part_nums:
-        if name == 'SC-219/50-NbTi-NbTi':
+        if name == 'SC-086/50-BS-BS':
             cond = cond_curves(name + '.txt')
             # plt.plot(0.33**(2), cond[1][0], 'ro')
             cond33 = cond[1][0]
@@ -495,4 +498,4 @@ def generate_data_base():
     
     return
 
-main(60, 4, 1, 35, 0, 'test.txt')
+main(350e-3, 250e-3, 10, 10.16, 0, 'test.txt')
